@@ -1,0 +1,29 @@
+title: Admin Account Logon (baseline for after-hours alerting)
+id: 9b7c2a7e-1111-2222-3333-abcdef123456
+description: Detects logons using administrator-style accounts (use SIEM time filters for after-hours)
+status: experimental
+author: Dereje Deressa
+date: 2025/09/18
+references: []
+tags:
+  - attack.t1078
+logsource:
+  product: windows
+  service: security
+detection:
+  selection_success:
+    EventID: 4624
+  selection_user:
+    TargetUserName|endswith:
+      - Administrator
+      - Admin
+      - Admin1
+      - Admin2
+  condition: selection_success and selection_user
+fields:
+  - TargetUserName
+  - IpAddress
+  - LogonType
+falsepositives:
+  - Legitimate admin work or maintenance windows
+level: medium

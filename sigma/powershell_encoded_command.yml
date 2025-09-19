@@ -1,0 +1,20 @@
+title: Suspicious PowerShell Encoded Command
+id: 12345678-aaaa-bbbb-cccc-1234567890ab
+description: Detects PowerShell launched with -EncodedCommand (possible obfuscation)
+status: experimental
+author: Dereje Deressa
+date: 2025/09/18
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    Image|endswith: '\powershell.exe'
+    CommandLine|contains: '-EncodedCommand'
+  condition: selection
+fields:
+  - Image
+  - CommandLine
+falsepositives:
+  - Legitimate admin scripts using encoding
+level: high
